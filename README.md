@@ -15,6 +15,13 @@ Solution to have:
     - Testing
     - Validation
 
+## Code
+
+What codes are typically high-risk:
+- Anything custom written, generally has a lot of bugs if not tested properly
+- Web APIs - so many things go wrong (timeouts, throttling, delays, unexpected changes, HTML vs JSON response, corruption, auth failures, etc)
+- Multithreading code - very difficult to get it right
+
 
 ## Leap year bug:
 
