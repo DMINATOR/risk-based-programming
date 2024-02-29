@@ -22,6 +22,7 @@ What codes are typically high-risk:
 - Web APIs - so many things go wrong (timeouts, throttling, delays, unexpected changes, HTML vs JSON response, corruption, auth failures, etc)
 - Multithreading code - very difficult to get it right and test
 - IO operations: write/append/delete - high risk, something can go wrong (and many times it did!)
+- Security: authentication/authorization/etc - Very hard to get right, and with a significant risk
 - Combination of those is a bliss point
 
 ## Risk classification
@@ -34,8 +35,16 @@ What codes are typically high-risk:
 - Loss of reputation - potential impact in the future
 
 - Data corruption - while application is working, the result is corruption of data, this is difficult to indentify and mitigate
+- Security attack - Data breach, Ransomware attack, extortion
 - App crash - application stops working completely or becomes unresponsive
-- Transient failures - Happens in a while but doesn't have a permanent outage
+- Transient failures - Happens in a while but doesn't have a significant impact
+- Visual issues - doesn't prevent application from using, minor annoyance
+- Undetected issues - doesn't cause a problem since not materialized
+
+
+## App example
+
+- Demonstrates different situations by injecting failures and showing the impact it can have
 - 
 
 ## Leap year bug:
