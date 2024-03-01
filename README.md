@@ -45,7 +45,13 @@ What codes are typically high-risk:
 ## App example
 
 - Demonstrates different situations by injecting failures and showing the impact it can have
-- 
+- leap bug
+- data corruption
+- thread failures
+- unexpected exceptions, etc
+
+- downloading a file
+- storing the file
 
 ## Leap year bug:
 
