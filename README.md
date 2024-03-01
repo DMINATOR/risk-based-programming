@@ -57,4 +57,6 @@ What codes are typically high-risk:
 
 https://techcommunity.microsoft.com/t5/azure-developer-community-blog/it-s-2020-is-your-code-ready-for-leap-day/ba-p/1157279
 
+## Plugins
 
+- For Visual Studio - Fine Code Coverage
