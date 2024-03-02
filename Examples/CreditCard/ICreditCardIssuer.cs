@@ -11,9 +11,10 @@ namespace Examples.CreditCard
         /// <summary>
         /// Issues new card for a customer
         /// </summary>
+        /// <param name="date">Date time to use as a current date</param>
         /// <param name="FirstName">First name</param>
         /// <param name="LastName">Last name</param>
         /// <returns>New card details</returns>
-        public CreditCard IssueCard(string FirstName, string LastName);
+        public CreditCard IssueCard(DateTime date, string FirstName, string LastName);
     }
 }
