@@ -2,9 +2,8 @@ using Examples.CreditCard;
 
 namespace ExampleTests
 {
-    public class CreditCardIssuerTests
+    public class CreditCardIssuerFixedTests
     {
-        // Simple test, that returns a 100% code coverage of all lines, but is it sufficient ?
         [Fact]
         public void IssueCard_Default_Success()
         {

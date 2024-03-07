@@ -27,6 +27,8 @@ What codes are typically high-risk:
 
 ## Risk classification
 
+### Risk impact
+
 - Total cost - the damage is considered to be in money. This means a total cost:
 - Time to mitigate = (effort * time)
 - Additional expenses + resources
@@ -34,12 +36,15 @@ What codes are typically high-risk:
 - Compensations - if damage was made to customers/partners
 - Loss of reputation - potential impact in the future
 
-- Data corruption - while application is working, the result is corruption of data, this is difficult to indentify and mitigate
-- Security attack - Data breach, Ransomware attack, extortion
-- App crash - application stops working completely or becomes unresponsive
-- Transient failures - Happens in a while but doesn't have a significant impact
-- Visual issues - doesn't prevent application from using, minor annoyance
-- Undetected issues - doesn't cause a problem since not materialized
+### Risk type
+
+- Data corruption - While application is working, the result is corruption of data, this is difficult to indentify and mitigate
+- Security - Potential security impact: data breach, ransomware attack, extortion, takeover control
+- App crash - Application stops working completely or becomes unresponsive
+- Transient - Happens inconsistently at certain times
+- Unexpected - Application executes the code but the results are unexpected
+- Visual - Doesn't prevent application from working, displays incorrect or invalid values
+- Undetected - Issues that might happen but are not currently identified. It's assumed there are always some defects always present.
 
 
 ## App example
