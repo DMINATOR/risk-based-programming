@@ -10,7 +10,7 @@ namespace Examples.CreditCard
 
         public CreditCard IssueCard(DateTime date, string FirstName, string LastName)
         {
-            // Add years
+            // Calculate validity date
             var validity = new DateTime(date.Year + ValidityYears, date.Month, date.Day); // ⚠ Defective code
 
             var cardDetails = new CreditCard()
