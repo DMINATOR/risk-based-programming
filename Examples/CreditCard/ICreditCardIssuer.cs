@@ -17,4 +17,15 @@ namespace Examples.CreditCard
         /// <returns>New card details</returns>
         public CreditCard IssueCard(DateTime date, string FirstName, string LastName);
     }
+
+    internal interface ICreditCardIssuerRisksMitigated
+    {
+        /// <summary>
+        /// Issues new card for a customer
+        /// </summary>
+        /// <param name="FirstName">First name</param>
+        /// <param name="LastName">Last name</param>
+        /// <returns>New card details</returns>
+        public CreditCard IssueCard(string FirstName, string LastName);
+    }
 }
