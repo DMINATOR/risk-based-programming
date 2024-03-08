@@ -158,7 +158,9 @@ namespace Examples.CreditCard
         {
             // ❗ [TRANSIENT,UNEXPECTED]
             // - Input values are not validated, consider:
-            // cardNumber - can be empty/null/too small
+            // cardNumber
+            //  - can be empty/null/too small
+            //  - can be non numeric symbols
 
             // Reverse the card number
             char[] cardArray = cardNumber.ToCharArray();

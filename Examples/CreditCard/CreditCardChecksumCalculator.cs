@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Examples.CreditCard
 {
@@ -13,9 +11,10 @@ namespace Examples.CreditCard
     {
         public int Calculate(string cardNumber)
         {
-            // ❗ [TRANSIENT,UNEXPECTED]
-            // - Input values are not validated, consider:
-            // cardNumber - can be empty/null/too small
+            // ✅ [TRANSIENT,UNEXPECTED]
+            // - Input values are validated and tested
+            if ( string.IsNullOrEmpty(cardNumber)) throw new ArgumentNullException(nameof(cardNumber));
+            if ( !cardNumber.All(char.IsDigit)) throw new ArgumentException(nameof(cardNumber), "Provided string has non-numeric characters");
 
             // Reverse the card number
             char[] cardArray = cardNumber.ToCharArray();
