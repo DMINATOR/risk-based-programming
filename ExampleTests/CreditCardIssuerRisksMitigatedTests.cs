@@ -7,6 +7,7 @@ namespace ExampleTests
         #region Checksum tests
 
         [Theory]
+        [InlineData("1", 8)] // Minimum length
         [InlineData("853", 2)]
         [InlineData("424242424242424",2)]
         [InlineData("7992739871", 3)]
@@ -29,6 +30,7 @@ namespace ExampleTests
         [InlineData("123 123", "cardNumber (Parameter 'Provided string has non-numeric characters')")]
         [InlineData(" 123 ", "cardNumber (Parameter 'Provided string has non-numeric characters')")]
         [InlineData("9210X", "cardNumber (Parameter 'Provided string has non-numeric characters')")]
+        [InlineData("-12", "cardNumber (Parameter 'Provided string has non-numeric characters')")]
         public void CreditCardChecksumCalculator_InvalidNumber_ThrowsException(string number, string expectedMessage)
         {
             // Arrange

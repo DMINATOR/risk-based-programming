@@ -1,7 +1,4 @@
 ﻿
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-
 namespace Examples.CreditCard
 {
     /// <summary>
@@ -15,6 +12,7 @@ namespace Examples.CreditCard
             // - Input values are validated and tested
             if ( string.IsNullOrEmpty(cardNumber)) throw new ArgumentNullException(nameof(cardNumber));
             if ( !cardNumber.All(char.IsDigit)) throw new ArgumentException(nameof(cardNumber), "Provided string has non-numeric characters");
+            if ( cardNumber.Length < 1 && cardNumber.Length > 20 ) throw new ArgumentException(nameof(cardNumber), "Provided string exceeds expected length 1..20 ");
 
             // Reverse the card number
             char[] cardArray = cardNumber.ToCharArray();
@@ -25,7 +23,7 @@ namespace Examples.CreditCard
 
             for (int i = 0; i < reversedCardNumber.Length; i++)
             {
-                int digit = int.Parse(reversedCardNumber[i].ToString());
+                int digit = int.Parse(reversedCardNumber[i].ToString());    // ✅ [TRANSIENT,UNEXPECTED] - This can be not an integer - validated with a test and input arguments
 
                 // Double every first digit
                 if (i % 2 == 0)
@@ -47,7 +45,7 @@ namespace Examples.CreditCard
 
             return checksum;
 
-            // ❗ - The results need to be validated, to make sure Luhn algorithm generation is correct
+            // ✅ [TRANSIENT,UNEXPECTED] The results need to be validated, to make sure Luhn algorithm generation is correct - validated with a test
         }
     }
 }

@@ -171,7 +171,7 @@ namespace Examples.CreditCard
 
             for (int i = 0; i < reversedCardNumber.Length; i++)
             {
-                int digit = int.Parse(reversedCardNumber[i].ToString());
+                int digit = int.Parse(reversedCardNumber[i].ToString());  // ❗ [TRANSIENT,UNEXPECTED] - This can be not an integer, and fail
 
                 // Double every second digit
                 if (i % 2 == 1)
@@ -193,7 +193,7 @@ namespace Examples.CreditCard
 
             return checksum;
 
-            // ❗ - The results need to be validated, to make sure Luhn algorithm generation is correct
+            // ❗ [TRANSIENT,UNEXPECTED] The results need to be validated, to make sure Luhn algorithm generation is correct
         }
 
         /// <summary>
