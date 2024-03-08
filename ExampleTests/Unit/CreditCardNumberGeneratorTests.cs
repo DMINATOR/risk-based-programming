@@ -70,7 +70,8 @@ namespace ExampleTests.Unit
             var ex = Assert.ThrowsAny<Exception>(generator.Generate);
 
             // Assert
-            Assert.Equal("Mock Exception", ex.Message);
+            Assert.Equal("Failed to generate card number", ex.Message);
+            Assert.Equal("Mock Exception", ex.InnerException!.Message);
         }
 
         [Fact]
@@ -87,7 +88,8 @@ namespace ExampleTests.Unit
             var ex = Assert.ThrowsAny<Exception>(generator.Generate);
 
             // Assert
-            Assert.Equal("Mock Exception", ex.Message);
+            Assert.Equal("Failed to generate card number", ex.Message);
+            Assert.Equal("Mock Exception", ex.InnerException!.Message);
         }
 
         [Fact]
@@ -104,7 +106,8 @@ namespace ExampleTests.Unit
             var ex = Assert.ThrowsAny<Exception>(generator.Generate);
 
             // Assert
-            Assert.Equal("Mock Exception", ex.Message);
+            Assert.Equal("Failed to generate card number", ex.Message);
+            Assert.Equal("Mock Exception", ex.InnerException!.Message);
         }
     }
 }

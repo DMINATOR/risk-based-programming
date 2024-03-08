@@ -16,4 +16,9 @@ namespace Examples.CreditCard.RisksMitigated
             return $"{Random.Shared.Next(9999999)}".PadRight(7).Replace(' ', '0')[0..7];
         }
     }
+
+    public class DatabaseException : Exception
+    {
+
+    }
 }
