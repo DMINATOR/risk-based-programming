@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Examples.CreditCard
+﻿
+namespace Examples.CreditCard.RisksMitigated
 {
     public interface ICreditCardCVCGenerator
     {

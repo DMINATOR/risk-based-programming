@@ -1,5 +1,4 @@
-﻿
-namespace Examples.CreditCard
+﻿namespace Examples.CreditCard.RisksMitigated
 {
     /// <summary>
     /// https://www.creditcardvalidator.org/articles/luhn-algorithm
@@ -10,9 +9,9 @@ namespace Examples.CreditCard
         {
             // ✅ [TRANSIENT,UNEXPECTED]
             // - Input values are validated and tested
-            if ( string.IsNullOrEmpty(cardNumber)) throw new ArgumentNullException(nameof(cardNumber));
-            if ( !cardNumber.All(char.IsDigit)) throw new ArgumentException(nameof(cardNumber), "Provided string has non-numeric characters");
-            if ( cardNumber.Length < 1 && cardNumber.Length > 20 ) throw new ArgumentException(nameof(cardNumber), "Provided string exceeds expected length 1..20 ");
+            if (string.IsNullOrEmpty(cardNumber)) throw new ArgumentNullException(nameof(cardNumber));
+            if (!cardNumber.All(char.IsDigit)) throw new ArgumentException(nameof(cardNumber), "Provided string has non-numeric characters");
+            if (cardNumber.Length < 1 && cardNumber.Length > 20) throw new ArgumentException(nameof(cardNumber), "Provided string exceeds expected length 1..20 ");
 
             // Reverse the card number
             char[] cardArray = cardNumber.ToCharArray();
@@ -41,7 +40,7 @@ namespace Examples.CreditCard
             }
 
             // Calculate the checksum needed to make the sum a multiple of 10
-            int checksum = (sum * 9) % 10;
+            int checksum = sum * 9 % 10;
 
             return checksum;
 

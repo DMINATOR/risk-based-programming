@@ -1,4 +1,4 @@
-using Examples.CreditCard;
+using Examples.CreditCard.Original;
 
 namespace ExampleTests
 {
@@ -6,7 +6,7 @@ namespace ExampleTests
     {
         // Simple test, that returns a 100% code coverage of all lines, but is it sufficient ?
         [Fact]
-        public void IssueCard_Default_Success()
+        public void CreditCardIssuer_IssueCard_Default_Success()
         {
             // Arrange
             var date = DateTime.Now;
