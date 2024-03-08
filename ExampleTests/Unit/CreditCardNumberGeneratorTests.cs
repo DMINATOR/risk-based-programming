@@ -26,16 +26,23 @@ namespace ExampleTests.Unit
             _database = _databaseMock.Object;
         }
 
-        [Fact]
-        public void CreditCardNumberGeneratorTests_Default_Success()
+        private string SetupMocks()
         {
-            // Arrange
-            var generator = new CreditCardNumberGenerator(_checksumCalculator, _database);
-
             var creditCardNumberPart = $"{CreditCardNumberGenerator.IndustryIdentifier}{MockedIssuerIdentificationNumber}{MockedPersonalAccountNumber}";
+
             _databaseMock.Setup(m => m.GetPersonalAccountNumber()).Returns(MockedPersonalAccountNumber);
             _databaseMock.Setup(m => m.GetIssuerIdentificationNumber()).Returns(MockedIssuerIdentificationNumber);
             _checksumCalculatorMock.Setup(m => m.Calculate(creditCardNumberPart)).Returns(2);
+
+            return creditCardNumberPart;
+        }
+
+        [Fact]
+        public void CreditCardNumberGeneratorTests_Generate_Default_Success()
+        {
+            // Arrange
+            var generator = new CreditCardNumberGenerator(_checksumCalculator, _database);
+            var creditCardNumberPart = SetupMocks();
 
             // Act
             var number = generator.Generate();
@@ -46,26 +53,58 @@ namespace ExampleTests.Unit
 
             Assert.Equal(16, number.Length);
             Assert.Equal($"{creditCardNumberPart}{2}", number);
+            Assert.All(number, x => char.IsDigit(x));
         }
 
-        [Theory]
-        [InlineData("", "Value cannot be null. (Parameter 'cardNumber')")]
-        [InlineData(null, "Value cannot be null. (Parameter 'cardNumber')")]
-        [InlineData("abc", "cardNumber (Parameter 'Provided string has non-numeric characters')")]
-        [InlineData("123 123", "cardNumber (Parameter 'Provided string has non-numeric characters')")]
-        [InlineData(" 123 ", "cardNumber (Parameter 'Provided string has non-numeric characters')")]
-        [InlineData("9210X", "cardNumber (Parameter 'Provided string has non-numeric characters')")]
-        [InlineData("-12", "cardNumber (Parameter 'Provided string has non-numeric characters')")]
-        public void CreditCardNumberGeneratorTests_InvalidNumber_ThrowsException(string number, string expectedMessage)
+        [Fact]
+        public void CreditCardNumberGeneratorTests_Generate_GetPersonalAccountNumber_ThrowsException()
         {
             // Arrange
             var generator = new CreditCardNumberGenerator(_checksumCalculator, _database);
+            var creditCardNumberPart = SetupMocks();
+
+            // override
+            _databaseMock.Setup(m => m.GetPersonalAccountNumber()).Throws(new Exception("Mock Exception"));
 
             // Act
             var ex = Assert.ThrowsAny<Exception>(generator.Generate);
 
             // Assert
-            Assert.Equal(expectedMessage, ex.Message);
+            Assert.Equal("Mock Exception", ex.Message);
+        }
+
+        [Fact]
+        public void CreditCardNumberGeneratorTests_Generate_GetIssuerIdentificationNumber_ThrowsException()
+        {
+            // Arrange
+            var generator = new CreditCardNumberGenerator(_checksumCalculator, _database);
+            var creditCardNumberPart = SetupMocks();
+
+            // override
+            _databaseMock.Setup(m => m.GetIssuerIdentificationNumber()).Throws(new Exception("Mock Exception"));
+
+            // Act
+            var ex = Assert.ThrowsAny<Exception>(generator.Generate);
+
+            // Assert
+            Assert.Equal("Mock Exception", ex.Message);
+        }
+
+        [Fact]
+        public void CreditCardNumberGeneratorTests_Generate_ChecksumCalculator_ThrowsException()
+        {
+            // Arrange
+            var generator = new CreditCardNumberGenerator(_checksumCalculator, _database);
+            var creditCardNumberPart = SetupMocks();
+
+            // override
+            _checksumCalculatorMock.Setup(m => m.Calculate(creditCardNumberPart)).Throws(new Exception("Mock Exception"));
+
+            // Act
+            var ex = Assert.ThrowsAny<Exception>(generator.Generate);
+
+            // Assert
+            Assert.Equal("Mock Exception", ex.Message);
         }
     }
 }
