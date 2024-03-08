@@ -34,7 +34,7 @@ namespace Examples.CreditCard.Original
         private string GenerateCVC(string cardNumber)
         {
             var randomCombination = Random.Shared.Next(999); // For actual CVC this could be a pair of DES (Data Encryption Standard) keys
-            var cardNumberHash = cardNumber.GetHashCode();
+            var cardNumberHash = (uint)cardNumber.GetHashCode();
             var combined = randomCombination ^ cardNumberHash;
 
             return combined.ToString()[0..3];
@@ -55,7 +55,7 @@ namespace Examples.CreditCard.Original
                 int digit = int.Parse(reversedCardNumber[i].ToString());
 
                 // Double every second digit
-                if (i % 2 == 1)
+                if (i % 2 == 0)
                 {
                     digit *= 2;
 
@@ -145,7 +145,7 @@ namespace Examples.CreditCard.Original
             // cardNumber - can be empty/null/too small
 
             var randomCombination = Random.Shared.Next(999); // For actual CVC this could be a pair of DES (Data Encryption Standard) keys
-            var cardNumberHash = cardNumber.GetHashCode();
+            var cardNumberHash = (uint)cardNumber.GetHashCode();
             var combined = randomCombination ^ cardNumberHash;
 
             return combined.ToString()[0..3];
@@ -174,7 +174,7 @@ namespace Examples.CreditCard.Original
                 int digit = int.Parse(reversedCardNumber[i].ToString());  // ❗ [TRANSIENT,UNEXPECTED] - This can be not an integer, and fail
 
                 // Double every second digit
-                if (i % 2 == 1)
+                if (i % 2 == 0)
                 {
                     digit *= 2;
 
