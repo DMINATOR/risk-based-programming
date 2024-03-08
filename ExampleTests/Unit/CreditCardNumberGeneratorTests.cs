@@ -14,8 +14,8 @@ namespace ExampleTests.Unit
         private ICreditCardChecksumCalculator _checksumCalculator;
 
         // Values
-        private string MockedPersonalAccountNumber = "01234567";
-        private string MockedIssuerIdentificationNumber = "01234567";
+        private string MockedPersonalAccountNumber = "1234567";
+        private string MockedIssuerIdentificationNumber = "1234567";
 
         public CreditCardNumberGeneratorTests()
         {
