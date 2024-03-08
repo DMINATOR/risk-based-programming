@@ -1,6 +1,6 @@
 using Examples.CreditCard.Original;
 
-namespace ExampleTests
+namespace ExampleTests.Unit
 {
     public class CreditCardIssuerTests
     {

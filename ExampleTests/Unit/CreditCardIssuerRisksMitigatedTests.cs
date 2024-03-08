@@ -1,7 +1,7 @@
 using Examples.CreditCard.RisksMitigated;
 using Microsoft.Extensions.Time.Testing;
 
-namespace ExampleTests
+namespace ExampleTests.Unit
 {
     public class CreditCardIssuerRisksMitigatedTests
     {

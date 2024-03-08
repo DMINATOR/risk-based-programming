@@ -1,7 +1,7 @@
 using Examples.CreditCard.RisksMitigated;
 using Moq;
 
-namespace ExampleTests
+namespace ExampleTests.Unit
 {
     public class CreditCardNumberGeneratorTests
     {
@@ -44,6 +44,7 @@ namespace ExampleTests
             _databaseMock.VerifyAll();
             _checksumCalculatorMock.VerifyAll();
 
+            Assert.Equal(16, number.Length);
             Assert.Equal($"{creditCardNumberPart}{2}", number);
         }
 

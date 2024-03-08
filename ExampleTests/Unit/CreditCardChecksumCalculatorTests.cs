@@ -1,13 +1,13 @@
 using Examples.CreditCard.RisksMitigated;
 
-namespace ExampleTests
+namespace ExampleTests.Unit
 {
     public class CreditCardChecksumCalculatorTests
     {
         [Theory]
         [InlineData("1", 8)] // Minimum length
         [InlineData("853", 2)]
-        [InlineData("424242424242424",2)]
+        [InlineData("424242424242424", 2)]
         [InlineData("7992739871", 3)]
         public void CreditCardChecksumCalculator_Calculate_Default_Success(string number, int expectedChecksum)
         {
@@ -35,7 +35,7 @@ namespace ExampleTests
             var calculator = new CreditCardChecksumCalculator();
 
             // Act
-            var ex = Assert.ThrowsAny<Exception>(() => 
+            var ex = Assert.ThrowsAny<Exception>(() =>
                 calculator.Calculate(number)
             );
 
