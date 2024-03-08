@@ -205,8 +205,13 @@ namespace Examples.CreditCard.Original
         private string GenerateNumber()
         {
             var industryIdentifier = "5"; // [0] Banking
+
+            // ❗ [TRANSIENT,UNEXPECTED] Assuming these will be issues by a database, the results can return invalid results or fail at random times
             var issuerIdentificationNumber = $"{Random.Shared.Next(9999999)}".PadRight(7).Replace(' ', '0')[0..7]; // [1..7]
+
+            // ❗ [TRANSIENT,UNEXPECTED] Assuming these will be issues by a database, the results can return invalid results or fail at random times
             var personalAccountNumber = $"{Random.Shared.Next(9999999)}".PadRight(7).Replace(' ', '0')[0..7]; // [8..14]
+
             var checkSum = CalculateChecksum($"{industryIdentifier}{issuerIdentificationNumber}{personalAccountNumber}"); // [15]
 
             return $"{industryIdentifier}{issuerIdentificationNumber}{personalAccountNumber}{checkSum}";

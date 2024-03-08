@@ -1,6 +1,6 @@
 ﻿namespace Examples.CreditCard.RisksMitigated
 {
-    internal interface ICreditCardChecksumCalculator
+    public interface ICreditCardChecksumCalculator
     {
         /// <summary>
         /// Calculates Checksum for credit card number, using Luhn algorithm

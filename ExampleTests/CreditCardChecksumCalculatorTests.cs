@@ -9,7 +9,7 @@ namespace ExampleTests
         [InlineData("853", 2)]
         [InlineData("424242424242424",2)]
         [InlineData("7992739871", 3)]
-        public void CreditCardChecksumCalculator_Default_Success(string number, int expectedChecksum)
+        public void CreditCardChecksumCalculator_Calculate_Default_Success(string number, int expectedChecksum)
         {
             // Arrange
             var calculator = new CreditCardChecksumCalculator();
@@ -29,7 +29,7 @@ namespace ExampleTests
         [InlineData(" 123 ", "cardNumber (Parameter 'Provided string has non-numeric characters')")]
         [InlineData("9210X", "cardNumber (Parameter 'Provided string has non-numeric characters')")]
         [InlineData("-12", "cardNumber (Parameter 'Provided string has non-numeric characters')")]
-        public void CreditCardChecksumCalculator_InvalidNumber_ThrowsException(string number, string expectedMessage)
+        public void CreditCardChecksumCalculator_Calculate_InvalidNumber_ThrowsException(string number, string expectedMessage)
         {
             // Arrange
             var calculator = new CreditCardChecksumCalculator();
