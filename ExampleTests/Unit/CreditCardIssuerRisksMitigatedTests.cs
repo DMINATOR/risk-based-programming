@@ -123,5 +123,64 @@ namespace ExampleTests.Unit
             // Assert
             Assert.Equal(expectedException, ex.Message);
         }
+
+
+        [Fact]
+        public void CreditCardIssuerRisksMitigatedTests_IssueCard_NumberGenerator_ThrowsException()
+        {
+            // Arrange
+            SetupMocks();
+            var issuer = new CreditCardIssuerRisksMitigated(_timeProvider, _creditCardNumberGenerator, _creditCardCVCGenerator);
+
+            // override
+            _creditCardNumberGeneratorMock.Setup(m => m.Generate()).Throws(new Exception("Mock Exception"));
+
+            // Act
+            var ex = Assert.ThrowsAny<Exception>(() => issuer.IssueCard(MockedFirstName, MockedLastName));
+
+            // Assert
+            Assert.Equal("Failed to issue credit card", ex.Message);
+            Assert.Equal("Mock Exception", ex.InnerException!.Message);
+        }
+
+        [Fact]
+        public void CreditCardIssuerRisksMitigatedTests_IssueCard_CVCGenerator_ThrowsException()
+        {
+            // Arrange
+            SetupMocks();
+            var issuer = new CreditCardIssuerRisksMitigated(_timeProvider, _creditCardNumberGenerator, _creditCardCVCGenerator);
+
+            // override
+            _creditCardCVCGeneratorMock.Setup(m => m.Generate(MockedCardNumber)).Throws(new Exception("Mock Exception"));
+
+            // Act
+            var ex = Assert.ThrowsAny<Exception>(() => issuer.IssueCard(MockedFirstName, MockedLastName));
+
+            // Assert
+            Assert.Equal("Failed to issue credit card", ex.Message);
+            Assert.Equal("Mock Exception", ex.InnerException!.Message);
+        }
+
+        [Theory]
+        [InlineData("First", "", "Value cannot be null. (Parameter 'LastName')")]
+        [InlineData("First", null, "Value cannot be null. (Parameter 'LastName')")]
+        [InlineData("First", "X", "LastName (Parameter 'Provided string exceeds expected length 1..20')")]
+        [InlineData("First", "0123456789012345678901", "LastName (Parameter 'Provided string exceeds expected length 1..20')")]
+        [InlineData("", "Last", "Value cannot be null. (Parameter 'FirstName')")]
+        [InlineData(null, "Last", "Value cannot be null. (Parameter 'FirstName')")]
+        [InlineData("X", "Last", "FirstName (Parameter 'Provided string exceeds expected length 1..20')")]
+        [InlineData("0123456789012345678901", "Last", "FirstName (Parameter 'Provided string exceeds expected length 1..20')")]
+        public void CreditCardIssuerRisksMitigatedTests_IssueCard_FirstLastName_ThrowsException(string firstName, string lastName, string expectedException)
+        {
+            // Arrange
+            SetupMocks();
+            var issuer = new CreditCardIssuerRisksMitigated(_timeProvider, _creditCardNumberGenerator, _creditCardCVCGenerator);
+
+            // Act
+            var ex = Assert.ThrowsAny<Exception>(() => issuer.IssueCard(firstName, lastName));
+
+            // Assert
+            Assert.Equal(expectedException, ex.Message);
+        }
     }
 }
