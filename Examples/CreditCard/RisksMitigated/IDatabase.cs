@@ -7,5 +7,8 @@
 
         // Returns personal account number
         public string GetPersonalAccountNumber();
+
+        // Returns current cvc keys
+        public uint GetCVCKeys();
     }
 }

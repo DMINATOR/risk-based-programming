@@ -6,6 +6,6 @@ namespace Examples.CreditCard.RisksMitigated
         /// <summary>
         /// Generates CVC from credit card number
         /// </summary>
-        public string Generate(string number);
+        public string Generate(string cardNumber);
     }
 }

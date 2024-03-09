@@ -15,6 +15,11 @@ namespace Examples.CreditCard.RisksMitigated
         {
             return $"{Random.Shared.Next(9999999)}".PadRight(7).Replace(' ', '0')[0..7];
         }
+
+        public uint GetCVCKeys()
+        {
+            return (uint)Random.Shared.Next(999);
+        }
     }
 
     public class DatabaseException : Exception
