@@ -6,13 +6,19 @@ namespace ExampleTests.Unit
 {
     public class CreditCardIssuerRisksMitigatedTests
     {
-        private TimeProvider _timeProvider;
+        private FakeTimeProvider _timeProvider;
 
         private Mock<ICreditCardNumberGenerator> _creditCardNumberGeneratorMock;
         private ICreditCardNumberGenerator _creditCardNumberGenerator;
 
         private Mock<ICreditCardCVCGenerator> _creditCardCVCGeneratorMock;
         private ICreditCardCVCGenerator _creditCardCVCGenerator;
+
+        // Values
+        private string MockedFirstName = "First";
+        private string MockedLastName = "Last";
+        private string MockedCardNumber = "4242424242424242";
+        private string MockedCVC = "123";
 
         public CreditCardIssuerRisksMitigatedTests()
         {
@@ -21,36 +27,42 @@ namespace ExampleTests.Unit
 
         private void SetupMocks()
         {
-            var cardNumber = "4242424242424242";
-
             _creditCardNumberGeneratorMock = new Mock<ICreditCardNumberGenerator>();
-            _creditCardNumberGeneratorMock.Setup(m => m.Generate()).Returns(cardNumber);
+            _creditCardNumberGeneratorMock.Setup(m => m.Generate()).Returns(MockedCardNumber);
             _creditCardNumberGenerator = _creditCardNumberGeneratorMock.Object;
 
             _creditCardCVCGeneratorMock = new Mock<ICreditCardCVCGenerator>();
-            _creditCardCVCGeneratorMock.Setup(m => m.Generate(cardNumber)).Returns("123");
+            _creditCardCVCGeneratorMock.Setup(m => m.Generate(MockedCardNumber)).Returns(MockedCVC);
             _creditCardCVCGenerator = _creditCardCVCGeneratorMock.Object;
         }
 
-        [Fact]
-        public void CreditCardIssuerRisksMitigatedTests_IssueCard_Default_Success()
+        [Theory]
+        [InlineData(2024, 1, 1)]
+        [InlineData(2024, 2, 28)]
+        [InlineData(2024, 2, 29)] // Leap day
+        [InlineData(2024, 12, 31)]
+        public void CreditCardIssuerRisksMitigatedTests_IssueCard_Default_Success(int year, int month, int day)
         {
             // Arrange
-            var firstName = "First";
-            var lastName = "Last";
             SetupMocks();
+            var mockedDateTime = new DateTimeOffset(year, month, day, 12, 0, 15, TimeSpan.Zero);
+            _timeProvider.SetUtcNow(mockedDateTime);
             var issuer = new CreditCardIssuerRisksMitigated(_timeProvider, _creditCardNumberGenerator, _creditCardCVCGenerator);
 
             // Act
-            var card = issuer.IssueCard(firstName, lastName);
+            var card = issuer.IssueCard(MockedFirstName, MockedLastName);
 
             // Assert
             _creditCardCVCGeneratorMock.VerifyAll();
             _creditCardNumberGeneratorMock.VerifyAll();
-            Assert.Equal(firstName, card.FirstName);
-            Assert.Equal(lastName, card.LastName);
-        }
 
+            Assert.Equal(MockedFirstName, card.FirstName);
+            Assert.Equal(MockedLastName, card.LastName);
+            Assert.Equal(MockedCardNumber, card.Number);
+            Assert.Equal(MockedCVC, card.CVC);
+            Assert.Equal(mockedDateTime.Month, card.ValidMonth);
+            Assert.Equal(mockedDateTime.Year + 5, card.ValidYear); // with default validity years
+        }
 
         [Fact]
         public void CreditCardIssuerRisksMitigatedTests_Constructor_TimeProvider_IsNull_ThrowsException()

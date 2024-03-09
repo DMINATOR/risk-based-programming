@@ -45,7 +45,8 @@ namespace Examples.CreditCard.RisksMitigated
             // Validate inputs
 
             // Calculate validity date
-            var validity = _timeProvider.GetUtcNow().AddYears(_validityYears); // Not exposed to leap year bug
+            var dateNow = _timeProvider.GetUtcNow();
+            var validity = dateNow.AddYears(_validityYears); // Not exposed to leap year bug
             var cardNumber = _numberGenerator.Generate();
 
             var cardDetails = new CreditCard()
