@@ -32,7 +32,7 @@ namespace Examples.CreditCard.RisksMitigated
             if (timeProvider == null) throw new ArgumentNullException(nameof(timeProvider));
             if (numberGenerator == null) throw new ArgumentNullException(nameof(numberGenerator));
             if (cvcGenerator == null) throw new ArgumentNullException(nameof(cvcGenerator));
-            if (validityYears < 0 && validityYears > 99) throw new ArgumentException(nameof(validityYears), "Provided validity years is outside expected range 0..99");
+            if (validityYears < 0 || validityYears > 99) throw new ArgumentException(nameof(validityYears), "Provided validity years is outside expected range 0..99");
 
             _validityYears = validityYears;
             _timeProvider = timeProvider;

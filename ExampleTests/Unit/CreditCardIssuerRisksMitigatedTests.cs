@@ -93,5 +93,23 @@ namespace ExampleTests.Unit
             // Assert
             Assert.Equal("Value cannot be null. (Parameter 'cvcGenerator')", ex.Message);
         }
+
+        [Theory]
+        [InlineData(-2, "validityYears (Parameter 'Provided validity years is outside expected range 0..99')")]
+        [InlineData(-1, "validityYears (Parameter 'Provided validity years is outside expected range 0..99')")]
+        [InlineData(100, "validityYears (Parameter 'Provided validity years is outside expected range 0..99')")]
+        [InlineData(101, "validityYears (Parameter 'Provided validity years is outside expected range 0..99')")]
+        public void CreditCardIssuerRisksMitigatedTests_Constructor_ValidityYears_Invalid_ThrowsException(int validityYears, string expectedException)
+        {
+            // Arrange
+            // Act
+            SetupMocks();
+            var ex = Assert.ThrowsAny<Exception>(() =>
+                 new CreditCardIssuerRisksMitigated(_timeProvider, _creditCardNumberGenerator, _creditCardCVCGenerator, validityYears)
+            );
+
+            // Assert
+            Assert.Equal(expectedException, ex.Message);
+        }
     }
 }
