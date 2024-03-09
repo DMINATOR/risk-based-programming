@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Examples.CreditCard
 {
-    internal interface ICreditCardIssuer
+    public interface ICreditCardIssuer
     {
         /// <summary>
         /// Issues new card for a customer
@@ -18,7 +18,7 @@ namespace Examples.CreditCard
         public CreditCard IssueCard(DateTime date, string FirstName, string LastName);
     }
 
-    internal interface ICreditCardIssuerRisksMitigated
+    public interface ICreditCardIssuerRisksMitigated
     {
         /// <summary>
         /// Issues new card for a customer

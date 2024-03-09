@@ -1,21 +1,58 @@
-﻿using Examples.CreditCard.Original;
+﻿using Examples.CreditCard;
+using Examples.CreditCard.RisksMitigated;
+using Microsoft.Extensions.DependencyInjection;
+using static System.Net.Mime.MediaTypeNames;
 
 public class StartupCardIssuerFixed
 {
-    private static readonly CreditCardIssuer _issuer = new CreditCardIssuer();
-
     public static void Main(string[] args)
     {
-        var now = DateTime.Now;
-        //var now = new DateTime(29,02,2024); // ⚠ Defect - Leap year happens !
-        var card = _issuer.IssueCard(now, "name1", "name2");
+        var services = new ServiceCollection();
+        ConfigureServices(services);
+        var provider = services.BuildServiceProvider();
+        
+        IssueCards(provider);
+    }
 
-        Console.WriteLine(@$"Card issued:
+    private static void ConfigureServices(IServiceCollection services)
+    {
+        services
+            .AddSingleton(TimeProvider.System)
+            .AddSingleton<IDatabase, DatabaseMock>()
+            .AddSingleton<ICreditCardNumberGenerator, CreditCardNumberGenerator>()
+            .AddSingleton<ICreditCardChecksumCalculator, CreditCardChecksumCalculator>()
+            .AddSingleton<ICreditCardCVCGenerator, CreditCardCVCGenerator>();
+    }
+
+    private static void IssueCards(ServiceProvider provider)
+    {
+        var issuer = new CreditCardIssuerRisksMitigated(
+            provider.GetService<TimeProvider>(),
+            provider.GetService<ICreditCardNumberGenerator>(),
+            provider.GetService<ICreditCardCVCGenerator>());
+
+        while (true)
+        {
+          
+            var card = issuer.IssueCard("name1", "name2");
+
+            Console.WriteLine(@$"Card issued (fixed):
 First Name: {card.FirstName}
 Last Name: {card.LastName}
 Number: {card.Number}
 Valid: {card.ValidMonth}/{card.ValidYear}
 CVC: {card.CVC}
 ");
+            var key = Console.ReadKey();
+
+            if (key.Key == ConsoleKey.Escape)
+            {
+                return;
+            }
+            else
+            {
+                Console.WriteLine("ESC - to exit");
+            }
+        }
     }
 }

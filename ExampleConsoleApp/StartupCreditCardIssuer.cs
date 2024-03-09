@@ -7,10 +7,15 @@ public class StartupCardIssuer
 
     public static void Main(string[] args)
     {
-        while(true)
+        IssueCards();
+    }
+
+    private static void IssueCards()
+    {
+        var now = DateTime.Now;
+
+        while (true)
         {
-            var now = DateTime.Now;
-            //var now = new DateTime(29,02,2024); // ⚠ Defect - Leap year happens !
             var card = _issuer.IssueCard(now, "name1", "name2");
 
             Console.WriteLine(@$"Card issued:
@@ -20,17 +25,21 @@ Number: {card.Number}
 Valid: {card.ValidMonth}/{card.ValidYear}
 CVC: {card.CVC}
 ");
-            var exit = Console.ReadKey();
+            var key = Console.ReadKey();
 
-            if (exit.Key == ConsoleKey.Escape)
+            if (key.Key == ConsoleKey.Escape)
             {
                 return;
             }
             else
             {
-                Console.WriteLine("ESC - to exit");
+                Console.WriteLine("ESC - to exit, [L] - for leap year");
+
+                if (key.Key == ConsoleKey.L)
+                {
+                    now = new DateTime(2024, 02, 29); // ⚠ Defect - Leap year happens !
+                }
             }
         }
-      
     }
 }
