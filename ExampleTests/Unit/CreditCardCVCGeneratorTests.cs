@@ -50,7 +50,7 @@ namespace ExampleTests.Unit
         [InlineData(" 123 ", "cardNumber (Parameter 'Provided string has non-numeric characters')")]
         [InlineData("123", "cardNumber (Parameter 'Provided string doesn't match expected length 16 ')")]
         [InlineData("42424242424242429", "cardNumber (Parameter 'Provided string doesn't match expected length 16 ')")]
-        public void CreditCardChecksumCalculator_Calculate_InvalidNumber_ThrowsException(string number, string expectedMessage)
+        public void CreditCardCVCGenerator_Generate_InvalidNumber_ThrowsException(string number, string expectedMessage)
         {
             // Arrange
             var generator = new CreditCardCVCGenerator(_database);
@@ -63,6 +63,24 @@ namespace ExampleTests.Unit
 
             // Assert
             Assert.Equal(expectedMessage, ex.Message);
+        }
+
+        [Theory]
+        [InlineData("4242424242424242")]
+        public void CreditCardCVCGenerator_Generate_GetCVCKeys_ThrowsException(string number)
+        {
+            // Arrange
+            var generator = new CreditCardCVCGenerator(_database);
+            SetupMocks();
+
+            // override
+            _databaseMock.Setup(m => m.GetCVCKeys()).Throws(new Exception("Mock Exception"));
+
+            // Act
+            var ex = Assert.ThrowsAny<Exception>(() => generator.Generate(number));
+
+            // Assert
+            Assert.Equal("Mock Exception", ex.Message);
         }
     }
 }

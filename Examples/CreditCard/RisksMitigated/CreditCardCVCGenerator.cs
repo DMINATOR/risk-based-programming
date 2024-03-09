@@ -17,7 +17,7 @@
             if (!cardNumber.All(char.IsDigit)) throw new ArgumentException(nameof(cardNumber), "Provided string has non-numeric characters");
             if (cardNumber.Length != 16) throw new ArgumentException(nameof(cardNumber), "Provided string doesn't match expected length 16 ");
 
-            var randomCombination = _database.GetCVCKeys(); // For actual CVC this could be a pair of DES (Data Encryption Standard) keys
+            var randomCombination = _database.GetCVCKeys(); // ✅ [TRANSIENT,UNEXPECTED], For actual CVC this could be a pair of DES (Data Encryption Standard) keys
             var cardNumberHash = (uint)cardNumber.GetHashCode();
             var combined = randomCombination ^ cardNumberHash;
 
