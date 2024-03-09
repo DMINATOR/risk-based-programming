@@ -50,5 +50,48 @@ namespace ExampleTests.Unit
             Assert.Equal(firstName, card.FirstName);
             Assert.Equal(lastName, card.LastName);
         }
+
+
+        [Fact]
+        public void CreditCardIssuerRisksMitigatedTests_Constructor_TimeProvider_IsNull_ThrowsException()
+        {
+            // Arrange
+            // Act
+            SetupMocks();
+            var ex = Assert.ThrowsAny<Exception>(() =>
+                 new CreditCardIssuerRisksMitigated(null, _creditCardNumberGenerator, _creditCardCVCGenerator)
+            );
+
+            // Assert
+            Assert.Equal("Value cannot be null. (Parameter 'timeProvider')", ex.Message);
+        }
+
+        [Fact]
+        public void CreditCardIssuerRisksMitigatedTests_Constructor_NumberGenerator_IsNull_ThrowsException()
+        {
+            // Arrange
+            // Act
+            SetupMocks();
+            var ex = Assert.ThrowsAny<Exception>(() =>
+                 new CreditCardIssuerRisksMitigated(_timeProvider, null, _creditCardCVCGenerator)
+            );
+
+            // Assert
+            Assert.Equal("Value cannot be null. (Parameter 'numberGenerator')", ex.Message);
+        }
+
+        [Fact]
+        public void CreditCardIssuerRisksMitigatedTests_Constructor_CVCGenerator_IsNull_ThrowsException()
+        {
+            // Arrange
+            // Act
+            SetupMocks();
+            var ex = Assert.ThrowsAny<Exception>(() =>
+                 new CreditCardIssuerRisksMitigated(_timeProvider, _creditCardNumberGenerator, null)
+            );
+
+            // Assert
+            Assert.Equal("Value cannot be null. (Parameter 'cvcGenerator')", ex.Message);
+        }
     }
 }

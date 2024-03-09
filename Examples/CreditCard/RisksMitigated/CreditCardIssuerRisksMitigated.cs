@@ -27,8 +27,13 @@ namespace Examples.CreditCard.RisksMitigated
             ICreditCardCVCGenerator cvcGenerator,
             int validityYears = 5)
         {
-            // (1) forces to validate number of years valid
-            // validate inputs
+            // ✅ [TRANSIENT,UNEXPECTED]
+            // - Input values are validated and tested
+            if (timeProvider == null) throw new ArgumentNullException(nameof(timeProvider));
+            if (numberGenerator == null) throw new ArgumentNullException(nameof(numberGenerator));
+            if (cvcGenerator == null) throw new ArgumentNullException(nameof(cvcGenerator));
+            if (validityYears < 0 && validityYears > 99) throw new ArgumentException(nameof(validityYears), "Provided validity years is outside expected range 0..99");
+
             _validityYears = validityYears;
             _timeProvider = timeProvider;
             _numberGenerator = numberGenerator;
