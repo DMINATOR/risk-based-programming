@@ -14,7 +14,7 @@ public class StartupCardIssuerFixed
         IssueCards(provider);
     }
 
-    private static void ConfigureServices(IServiceCollection services)
+    public static void ConfigureServices(IServiceCollection services)
     {
         services
             .AddSingleton(TimeProvider.System)
@@ -24,17 +24,23 @@ public class StartupCardIssuerFixed
             .AddSingleton<ICreditCardCVCGenerator, CreditCardCVCGenerator>();
     }
 
-    private static void IssueCards(ServiceProvider provider)
+    public static CreditCard IssueCard(ServiceProvider provider)
     {
         var issuer = new CreditCardIssuerRisksMitigated(
-            provider.GetService<TimeProvider>(),
-            provider.GetService<ICreditCardNumberGenerator>(),
-            provider.GetService<ICreditCardCVCGenerator>());
+          provider.GetService<TimeProvider>(),
+          provider.GetService<ICreditCardNumberGenerator>(),
+          provider.GetService<ICreditCardCVCGenerator>());
 
+        var card = issuer.IssueCard("name1", "name2");
+
+        return card;
+    }
+
+    private static void IssueCards(ServiceProvider provider)
+    {
         while (true)
         {
-          
-            var card = issuer.IssueCard("name1", "name2");
+            var card = IssueCard(provider);
 
             Console.WriteLine(@$"Card issued (fixed):
 First Name: {card.FirstName}
